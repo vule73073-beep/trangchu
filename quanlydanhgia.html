@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý đánh giá - AN'H.VU Bakery</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- 1. CẤU HÌNH CƠ BẢN --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat Alternates', sans-serif;
+        }
+
+        body {
+            background-color: #fffbf0;
+            color: #333;
+        }
+
+        /* --- 2. HEADER & NAV (Đồng bộ trang Sản phẩm) --- */
+        header {
+            width: 100%;
+        }
+
+        .top-bar {
+            background-color: #1e3d1a;
+            color: #bbb;
+            font-size: 12px;
+            padding: 6px 10%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 25px;
+        }
+
+        .main-nav {
+            background-color: #265220;
+            padding: 15px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            text-decoration: none;
+        }
+
+        .hero-banner {
+            background-image: linear-gradient(rgba(255, 0, 0, 0.237), rgba(251, 0, 0, 0.2)), url(018.jpg);
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        /* --- 3. THANH CATEGORY (Giống ảnh) --- */
+        .category-bar {
+            max-width: 1100px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        .cat-btn {
+            background-color: #a83218;
+            color: white;
+            padding: 15px 10px;
+            text-align: center;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+
+        /* --- 4. KHU VỰC ĐÁNH GIÁ (Update theo ảnh mới) --- */
+        .review-section {
+            max-width: 900px;
+            margin: 0 auto 60px;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            text-align: center;
+            color: #a83218;
+            font-size: 32px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        /* Sản phẩm đang xem đánh giá */
+        .current-product-preview {
+            background: white;
+            border-radius: 10px;
+            display: flex;
+            width: fit-content;
+            margin: 0 auto 40px;
+            padding: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            align-items: center;
+            gap: 20px;
+        }
+
+        .prod-preview-info {
+            width: 250px;
+        }
+
+        .prod-preview-info h3 {
+            color: #558B2F;
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .prod-preview-info p {
+            font-size: 10px;
+            color: #777;
+            margin-bottom: 5px;
+        }
+
+        .prod-preview-info .price {
+            color: #558B2F;
+            font-weight: 800;
+        }
+
+        .prod-preview-img {
+            width: 120px;
+            border-radius: 8px;
+        }
+
+        /* Danh sách comment */
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .review-card {
+            background: #fffbf0;
+            border: 1.5px solid #558B2F;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .user-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .user-icon {
+            font-size: 35px;
+            color: #558B2F;
+        }
+
+        .user-name {
+            font-weight: 800;
+            color: #558B2F;
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        .stars {
+            color: #FFC107;
+            font-size: 14px;
+        }
+
+        .comment-text {
+            font-size: 14px;
+            color: #555;
+            margin-left: 50px;
+        }
+
+        /* Nút hành động (Xác nhận/Xoá) */
+        .action-btns {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn-confirm {
+            background-color: #558B2F;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn-delete {
+            background-color: #a83218;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            font-size: 11px;
+            font-weight: 800;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        /* --- 5. FOOTER (Đồng bộ trang Sản phẩm) --- */
+        footer {
+            background-image: linear-gradient(rgba(255, 0, 0, 0.237), rgba(251, 0, 0, 0.2)), url(09.jpeg);
+            background-size: cover;
+            padding-top: 50px;
+            color: #ddd;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10% 40px;
+        }
+
+        .footer-bottom {
+            background-color: #fffceb;
+            color: #a83218;
+            text-align: center;
+            padding: 15px;
+            font-weight: 800;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <span><i class="fas fa-phone-alt"></i> 1900632005</span>
+            <span><i class="fas fa-envelope"></i> ANHVU.BAKERY205@GMAIL.COM</span>
+            <span><i class="fas fa-user"></i> TÀI KHOẢN | 0đ <i class="fas fa-shopping-cart"></i></span>
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="trangchu1.html">ANH'VU</a></li>
+                <li><a href="trangchu1.html">Trang chủ</a></li>
+                <li><a href="uudai.html">Ưu đãi</a></li>
+                <li><a href="#" class="nav-active">Sản phẩm</a></li>
+                <li><a href="hoso.html">Tài khoản</a></li>
+                <li><a href="thongke.html">Thống kê</a></li>
+                <li><a href="donhang.html">Đơn hàng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <h1>TẤT CẢ SẢN PHẨM</h1>
+        <div style="font-size: 14px; margin-top: 10px;">TRANG CHỦ / SẢN PHẨM</div>
+    </section>
+
+    <section class="category-bar">
+        <div class="cat-btn">BST GIÁNG SINH</div>
+        <div class="cat-btn">BÁNH SINH NHẬT</div>
+        <div class="cat-btn">BÁNH LẺ</div>
+        <div class="cat-btn">GIFTSET</div>
+    </section>
+
+    <section class="review-section">
+        <h2 class="section-title">BST GIÁNG SINH 2025</h2>
+
+        <div class="current-product-preview">
+            <div class="prod-preview-info">
+                <h3>OH MY DEER</h3>
+                <p>Chiếc bánh nhỏ mang dáng hình chú tuần lộc đáng yêu, hòa quyện giữa vị chua ngọt của xoài tươi và phô
+                    mai béo mịn...</p>
+                <div class="price">350,000đ <span style="font-size: 10px; color: #a83218; margin-left: 10px;">Quản lý
+                        đánh giá</span></div>
+            </div>
+            <img src="03.jpg" class="prod-preview-img" alt="Product">
+        </div>
+
+        <div class="review-list">
+            <div class="review-card">
+                <div class="user-row">
+                    <i class="far fa-user-circle user-icon"></i>
+                    <span class="user-name">Hong Lien Pham</span>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p class="comment-text">Ngon, độ ngọt vừa phải. Chất lượng hơn cả mong đợi!!!</p>
+                <div class="action-btns">
+                    <button class="btn-confirm">XÁC NHẬN</button>
+                    <button class="btn-delete">XOÁ</button>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="user-row">
+                    <i class="far fa-user-circle user-icon"></i>
+                    <span class="user-name">Hùng Đỗ</span>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="far fa-star"></i>
+                    </div>
+                </div>
+                <p class="comment-text">Bánh nhỏ, tạm ổn.</p>
+                <div class="action-btns">
+                    <button class="btn-confirm">XÁC NHẬN</button>
+                    <button class="btn-delete">XOÁ</button>
+                </div>
+            </div>
+
+            <div class="review-card">
+                <div class="user-row">
+                    <i class="far fa-user-circle user-icon"></i>
+                    <span class="user-name">Hồng Thơ</span>
+                    <div class="stars">
+                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                            class="fas fa-star"></i><i class="fas fa-star"></i>
+                    </div>
+                </div>
+                <p class="comment-text">Được tự do yêu cầu trang trí. Thơ rất thích.</p>
+                <div class="action-btns">
+                    <button class="btn-confirm">XÁC NHẬN</button>
+                    <button class="btn-delete">XOÁ</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3 style="color: white; margin-bottom: 15px;">AN'H.VU</h3>
+                <p>20 Ngô Quyền, Phường Tràng Tiền, Hà Nội</p>
+                <p>1900632005</p>
+            </div>
+            <div class="footer-social">
+                <h3 style="color: white; margin-bottom: 15px;">Mạng xã hội</h3>
+                <div style="display: flex; gap: 10px;">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-tiktok"></i>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            A PIECE OF CAKE, A PART OF WHOLE LIFE - BÁNH SẺ CHIA, TRỌN CUỘC SỐNG
+        </div>
+    </footer>
+</body>
+
+</html>

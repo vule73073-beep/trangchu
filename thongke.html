@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ANH.VU Bakery-Thống kê</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --red-cake: #A3311D;
+            --green-cake: #5F7D57;
+            --bg-cream: #F2EBD3;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat Alternates', sans-serif;
+            background-color: #fffbf0;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- Header --- */
+        header {
+            width: 100%;
+        }
+
+        .top-bar {
+            background-color: #1e3d1a;
+            color: #bbb;
+            font-size: 12px;
+            padding: 5px 10%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        .main-nav {
+            background-color: #265220;
+            padding: 15px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li.active a {
+            color: #f4c430;
+        }
+
+        /* --- Hero Banner --- */
+        .hero-banner {
+            background-image: linear-gradient(rgba(255, 0, 0, 0.237), rgba(251, 0, 0, 0.2)), url('018.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumb {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* --- Main Layout --- */
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .main-title {
+            color: var(--red-cake);
+            text-align: center;
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+
+        /* Bộ lọc */
+        .filter-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-left: 100px;
+            margin-bottom: 30px;
+        }
+
+        .filter-label {
+            color: #4D803D;
+            font-weight: bold;
+        }
+
+        .dropdown-box {
+            background: #4D803D;
+            color: white;
+            padding: 8px 15px;
+            width: 150px;
+            position: relative;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .dropdown-box .selected {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .dropdown-box .arrow {
+            border: solid white;
+            border-width: 0 2px 2px 0;
+            padding: 3px;
+            transform: rotate(45deg);
+            transition: 0.3s;
+        }
+
+        .dropdown-box.open .arrow {
+            transform: rotate(-135deg);
+            margin-top: 5px;
+        }
+
+        .dropdown-box .options {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #4D803D;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            z-index: 10;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-box.open .options {
+            display: block;
+        }
+
+        .dropdown-box li {
+            padding: 8px 15px;
+            border-top: 0.5px solid rgba(255, 255, 255, 0.2);
+            font-size: 14px;
+        }
+
+        .dropdown-box li:hover {
+            background-color: #4D803D;
+        }
+
+        /* Bố cục song song: Ngày và Bảng */
+        .data-flex-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 40px;
+            margin-bottom: 20px;
+        }
+
+        .date-side {
+            width: 250px;
+            text-align: left;
+        }
+
+        .date-label {
+            background: var(--red-cake);
+            color: white;
+            padding: 10px 15px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .table-side {
+            flex-grow: 1;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .data-table th {
+            color: var(--red-cake);
+            text-align: center;
+            padding: 10px;
+            font-size: 18px;
+            border-bottom: 2px solid var(--red-cake);
+        }
+
+        .data-table td {
+            padding: 12px;
+            color: var(--red-cake);
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .data-table a {
+            color: var(--red-cake);
+            font-weight: 400;
+            text-decoration: underline;
+            font-size: 12px;
+        }
+
+        /* Tổng & Nút */
+        .summary-area {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .total-box {
+            background: #4D803D;
+            color: white;
+            display: inline-block;
+            padding: 10px 40px;
+            margin-bottom: 30px;
+            line-height: 1.4;
+            border-radius: 2px;
+        }
+
+        .total-box span {
+            font-size: 20px;
+            font-weight: 800;
+        }
+
+        .btn-row {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .btn {
+            background: var(--red-cake);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            font-weight: bold;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .divider {
+            border: 0;
+            height: 80px;
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-image: linear-gradient(rgba(255, 0, 0, 0.237), rgba(251, 0, 0, 0.2)), url('09.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #ddd;
+            padding-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0 10% 40px 10%;
+            flex-wrap: wrap;
+        }
+
+        .footer-info h3,
+        .footer-social h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .footer-info p {
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer-info i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            font-size: 20px;
+            margin-right: 15px;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 8px;
+            border-radius: 5px;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 22px;
+        }
+
+        .footer-bottom {
+            background-color: #fffceb;
+            color: #a83218;
+            text-align: center;
+            padding: 15px;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <span><i class="fas fa-phone-alt"></i> 1900632005</span>
+            <span><i class="fas fa-envelope"></i> ANHVU.BAKERY205@GMAIL.COM</span>
+            <span><i class="fas fa-user"></i> TÀI KHOẢN | 0đ <i class="fas fa-shopping-cart"></i></span>
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="trangchu.html">ANH'VU</a></li>
+                <li><a href="trangchu1.html">Trang chủ</a></li>
+                <li><a href="uudai.html">Ưu đãi</a></li>
+                <li><a href="sanpham.html">Sản phẩm</a></li>
+                <li><a href="hoso.html">Tài khoản</a></li>
+                <li><a href="#" class="nav-active">Thống kê</a></li>
+                <li><a href="donhang.html">Đơn hàng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <h1>THỐNG KÊ</h1>
+        <div class="breadcrumb">TRANG CHỦ / THỐNG KÊ</div>
+    </section>
+
+    <div class="page-wrapper">
+        <h2 class="main-title">THỐNG KÊ DOANH THU</h2>
+
+        <div class="stats-content">
+            <div class="filter-row">
+                <span class="filter-label">Bộ lọc:</span>
+                <div class="dropdown-box" id="revenueDrop">
+                    <div class="selected"><span>Hôm nay</span> <span class="arrow"></span></div>
+                    <ul class="options">
+                        <li>Hôm nay</li>
+                        <li>Tuần này</li>
+                        <li>Tháng này</li>
+                        <li>Quý này</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="data-flex-container">
+                <div class="date-side">
+                    <div class="date-label">Hôm nay, 22/11/2025</div>
+                </div>
+
+                <div class="table-side">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tên đơn hàng</th>
+                                <th>Doanh thu</th>
+                                <th>Xem chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Đơn 05</td>
+                                <td>750,000đ</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Đơn 04</td>
+                                <td>750,000đ</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Đơn 03</td>
+                                <td>750,000đ</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Đơn 02</td>
+                                <td>750,000đ</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Đơn 01</td>
+                                <td>750,000đ</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="summary-area">
+                <div class="total-box">Tổng doanh thu:<br><span>750,000đ</span></div>
+                <div class="btn-row">
+                    <button class="btn">Xem tất cả</button>
+                    <button class="btn">Xuất file excel</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <h2 class="main-title">THỐNG KÊ TỒN KHO</h2>
+        <div class="stats-content">
+            <div class="filter-row">
+                <span class="filter-label">Bộ lọc:</span>
+                <div class="dropdown-box" id="stockDrop">
+                    <div class="selected"><span>Theo tên</span> <span class="arrow"></span></div>
+                    <ul class="options">
+                        <li>Theo tên</li>
+                        <li>Theo số lượng</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="data-flex-container">
+                <div class="date-side">
+                    <div class="date-label">Hôm nay, 22/11/2025</div>
+                </div>
+                <div class="table-side">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Tên Bánh</th>
+                                <th>Còn lại</th>
+                                <th>Xem chi tiết</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bánh A2</td>
+                                <td>04</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Bánh A3</td>
+                                <td>10</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Bánh A4</td>
+                                <td>14</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Bánh A5</td>
+                                <td>02</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                            <tr>
+                                <td>Bánh A6</td>
+                                <td>03</td>
+                                <td><a href="#">Xem chi tiết</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="summary-area">
+                <div class="total-box">Tổng tồn kho:<br><span>33</span></div>
+                <div class="btn-row">
+                    <button class="btn">Xem tất cả</button>
+                    <button class="btn">Xuất file excel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>AN'H.VU</h3>
+                <p><i class="fas fa-home"></i> 20 Ngô Quyền, Phường Tràng Tiền, Hà Nội</p>
+                <p><i class="fas fa-home"></i> 67 Văn Cao, Phường Liễu Giai, Hà Nội</p>
+                <p><i class="fas fa-home"></i> 58 Trung Hoà, Phường Trung Hoà, Hà Nội</p>
+                <p><i class="fas fa-home"></i> 210 Ngụy Như Kon Tum, Phường Thanh Xuân Trung, Hà Nội</p>
+                <br>
+                <p><i class="fas fa-phone-alt"></i> PRE-ORDER: 1900632005</p>
+                <p><i class="fas fa-envelope"></i> ANHVU.BAKERY205@GMAIL.COM</p>
+            </div>
+
+            <div class="footer-social">
+                <h3>Mạng xã hội</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            A PIECE OF CAKE, A PART OF WHOLE LIFE - BÁNH SẺ CHIA, TRỌN CUỘC SỐNG
+        </div>
+    </footer>
+
+    <script>
+        // Xử lý đóng mở và chọn option cho dropdown
+        document.querySelectorAll('.dropdown-box').forEach(drop => {
+            const selected = drop.querySelector('.selected span');
+            const options = drop.querySelectorAll('.options li');
+
+            // Mở/đóng khi click
+            drop.addEventListener('click', (e) => {
+                // Đóng các dropdown khác nếu đang mở
+                document.querySelectorAll('.dropdown-box').forEach(d => {
+                    if (d !== drop) d.classList.remove('open');
+                });
+                drop.classList.toggle('open');
+                e.stopPropagation();
+            });
+
+            // Chọn giá trị
+            options.forEach(opt => {
+                opt.addEventListener('click', () => {
+                    selected.innerText = opt.innerText;
+                });
+            });
+        });
+
+        // Đóng dropdown khi click ra ngoài
+        window.onclick = () => {
+            document.querySelectorAll('.dropdown-box').forEach(drop => {
+                drop.classList.remove('open');
+            });
+        };
+    </script>
+</body>
+
+</html>

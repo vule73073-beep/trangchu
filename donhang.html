@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <title>ANH.VU Bakery-Đơn hàng</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary-bg: #F5F1E1;
+            --red-dark: #A12B16;
+            --green-dark: #517148;
+            --text-color: #444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat Alternates', sans-serif;
+            background-color: #fffbf0;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        header {
+            width: 100%;
+        }
+
+        .top-bar {
+            background-color: #1e3d1a;
+            color: #bbb;
+            font-size: 12px;
+            padding: 5px 10%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 20px;
+        }
+
+        .main-nav {
+            background-color: #265220;
+            padding: 15px 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a:hover,
+        .nav-links li.active a {
+            color: #f4c430;
+        }
+
+        .hero-banner {
+            background-image: linear-gradient(rgba(255, 0, 0, 0.237), rgba(251, 0, 0, 0.2)), url('018.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 48px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumb {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .main-header {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #fff;
+        }
+
+        .title-page {
+            margin: 0;
+            color: var(--red-dark);
+            font-size: 32px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .layout-wrapper {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 220px;
+            flex-shrink: 0;
+        }
+
+        .box {
+            padding: 12px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .date-box {
+            background-color: var(--red-dark);
+        }
+
+        .revenue-box {
+            background-color: #4D803D;
+        }
+
+        .btn-stats {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--red-dark);
+            color: white;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Filter */
+        .content-area {
+            flex-grow: 1;
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .filter-label {
+            color: #4D803D;
+            font-weight: bold;
+        }
+
+        .select-wrapper {
+            position: relative;
+            width: 200px;
+        }
+
+        .filter-select {
+            width: 100%;
+            padding: 8px 15px;
+            font-weight: bold;
+            color: #4D803D;
+            border: 1px solid #ddd;
+            background-color: #fff;
+            cursor: pointer;
+            appearance: none;
+        }
+
+        .select-wrapper::after {
+            content: "\f078";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: #4D803D
+        }
+
+        /* Order Cards */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .order-card {
+            background-color: #fff;
+            display: flex;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img {
+            width: 150px;
+            height: 150px;
+            flex-shrink: 0;
+        }
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            padding-left: 20px;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-name {
+            color: #4D803D;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .product-meta {
+            color: #666;
+            font-size: 13px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .product-meta .qty-info {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -20px;
+        }
+
+        .price-summary {
+            text-align: right;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .price-summary strong {
+            font-size: 16px;
+            color: #4D803D;
+        }
+
+        .status-badge-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 10px;
+        }
+
+        .badge {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge.shipping {
+            background-color: #FDF4D1;
+            color: #E2AC3B;
+        }
+
+        .badge.completed {
+            background-color: #E8F5E9;
+            color: #4D803D;
+        }
+
+        .card-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .card-actions button {
+            padding: 8px 20px;
+            border: none;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 2px;
+            font-size: 12px;
+        }
+
+        .btn-contact {
+            background-color: var(--red-dark);
+        }
+
+        .btn-detail {
+            background-color: #4D803D;
+        }
+
+        /* Footer */
+        footer {
+            background-image: linear-gradient(rgba(255, 0, 0, 0.237), rgba(251, 0, 0, 0.2)), url('09.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #ddd;
+            padding-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 0 10% 40px 10%;
+            flex-wrap: wrap;
+        }
+
+        .footer-info h3,
+        .footer-social h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .footer-info p {
+            margin-bottom: 10px;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .footer-info i {
+            margin-right: 8px;
+        }
+
+        .social-icons a {
+            font-size: 20px;
+            margin-right: 15px;
+            color: #fff;
+            border: 1px solid #fff;
+            padding: 8px;
+            border-radius: 5px;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+        }
+
+        .footer-bottom {
+            background-color: #fffceb;
+            color: #a83218;
+            text-align: center;
+            padding: 15px;
+            font-weight: 800;
+            font-size: 14px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="top-bar">
+            <span><i class="fas fa-phone-alt"></i> 1900632005</span>
+            <span><i class="fas fa-envelope"></i> ANHVU.BAKERY205@GMAIL.COM</span>
+            <span><i class="fas fa-user"></i> TÀI KHOẢN | 0đ <i class="fas fa-shopping-cart"></i></span>
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="trangchu1.html">ANH'VU</a></li>
+                <li><a href="trangchu1.html">Trang chủ</a></li>
+                <li><a href="uudai.html">Ưu đãi</a></li>
+                <li><a href="sanpham.html">Sản phẩm</a></li>
+                <li><a href="hoso.html">Tài khoản</a></li>
+                <li><a href="thongke.html">Thống kê</a></li>
+                <li class="active"><a href="#" style="color: #f4c430;">Đơn hàng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <h1>ĐƠN HÀNG</h1>
+        <div class="breadcrumb">TRANG CHỦ / ĐƠN HÀNG</div>
+    </section>
+
+    <header class="main-header">
+        <h1 class="title-page">QUẢN LÝ ĐƠN HÀNG</h1>
+    </header>
+
+    <div class="container">
+        <main class="layout-wrapper">
+            <aside class="sidebar">
+                <div class="box date-box">Hôm nay, 22/11/2025</div>
+                <div class="box revenue-box">
+                    Tổng doanh thu:<br>
+                    <strong>750,000đ</strong>
+                </div>
+                <button class="btn-stats">Xem thống kê</button>
+            </aside>
+
+            <section class="content-area">
+                <div class="filter-container">
+                    <span class="filter-label">Bộ lọc:</span>
+                    <div class="select-wrapper">
+                        <select class="filter-select">
+                            <option>Tất cả</option>
+                            <option>Đang vận chuyển</option>
+                            <option>Shipper nhận đơn</option>
+                            <option>Đã hoàn thành</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="order-list">
+                    <div class="order-card">
+                        <div class="card-img">
+                            <img src="03.jpg" alt="OH MY DEER">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="product-name">OH MY DEER</h3>
+                            <div class="product-meta">
+                                <p>6cmx6cm</p>
+                                <div class="qty-info">x2</div>
+                                <p style="text-align: right; margin-top: -5px;">250,000đ</p>
+                            </div>
+                            <div class="price-summary">
+                                Tổng tiền (2 sản phẩm): <strong>350,000đ</strong>
+                            </div>
+                            <div class="status-badge-container">
+                                <span class="badge shipping">Trạng thái: Đang giao</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-contact">Liên hệ</button>
+                                <button class="btn-detail">Xem chi tiết</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="order-card">
+                        <div class="card-img">
+                            <img src="03.jpg" alt="OH MY DEER">
+                        </div>
+                        <div class="card-body">
+                            <h3 class="product-name">OH MY DEER</h3>
+                            <div class="product-meta">
+                                <p>6cmx6cm</p>
+                                <div class="qty-info">x2</div>
+                                <p style="text-align: right; margin-top: -5px;">250,000đ</p>
+                            </div>
+                            <div class="price-summary">
+                                Tổng tiền (2 sản phẩm): <strong>350,000đ</strong>
+                            </div>
+                            <div class="status-badge-container">
+                                <span class="badge completed">Trạng thái: Hoàn thành</span>
+                            </div>
+                            <div class="card-actions">
+                                <button class="btn-detail" style="width: 120px;">Xem chi tiết</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>AN'H.VU</h3>
+                <p><i class="fas fa-home"></i> 20 Ngô Quyền, Phường Tràng Tiền, Hà Nội</p>
+                <p><i></i> 67 Văn Cao, Phường Liễu Giai, Hà Nội</p>
+                <p><i></i> 58 Trung Hoà, Phường Trung Hoà, Hà Nội</p>
+                <p><i></i> 210 Ngụy Như Kon Tum, Phường Thanh Xuân Trung, Hà Nội</p>
+                <br>
+                <p><i class="fas fa-phone-alt"></i> PRE-ORDER: 1900632005</p>
+                <p><i class="fas fa-envelope"></i> ANHVU.BAKERY205@GMAIL.COM</p>
+            </div>
+
+            <div class="footer-social">
+                <h3>Mạng xã hội</h3>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            A PIECE OF CAKE, A PART OF WHOLE LIFE - BÁNH SẺ CHIA, TRỌN CUỘC SỐNG
+        </div>
+    </footer>
+</body>
+
+</html>

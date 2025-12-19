@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AN'H.VU Bakery - Tài khoản</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* --- 1. CẤU HÌNH CHUNG --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat Alternates', sans-serif;
+        }
+
+        body {
+            background-color: #fffbf0;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* --- 2. HEADER (Xanh đậm) --- */
+        header {
+            width: 100%;
+        }
+
+        .top-bar {
+            background-color: #1e3d1a;
+            color: #bbb;
+            font-size: 12px;
+            padding: 6px 10%;
+            display: flex;
+            justify-content: flex-end;
+            gap: 25px;
+        }
+
+        .main-nav {
+            background-color: #265220;
+            padding: 15px 5%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-links li a {
+            color: white;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 13px;
+        }
+
+        .nav-links li a:hover,
+        .nav-active {
+            color: #f4c430 !important;
+        }
+
+        /* --- 3. HERO BANNER (Ảnh bánh vàng) --- */
+        .hero-banner {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), url('018.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-banner h1 {
+            font-size: 64px;
+            font-weight: 800;
+            text-transform: uppercase;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.3);
+            margin-bottom: 10px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        /* --- 4. NỘI DUNG CHÍNH (Layout 2 bên) --- */
+        .profile-wrapper {
+            max-width: 1100px;
+            margin: 60px auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 50px;
+            padding: 0 20px;
+        }
+
+        .profile-left,
+        .profile-right {
+            flex: 1;
+        }
+
+        .title {
+            color: #a83218;
+            /* Màu đỏ đậm */
+            font-size: 36px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        /* Khối nền kem cho form */
+        .profile-card,
+        .user-card {
+            background-color: #F1E6B2;
+            /* Nền vàng kem đậm */
+            border-radius: 4px;
+        }
+
+        /* Cột bên trái: Hồ sơ cá nhân */
+        .profile-card {
+            padding: 30px;
+        }
+
+        .profile-card input {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #558B2F;
+        }
+
+        .role-group {
+            margin-bottom: 25px;
+        }
+
+        .role-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 700;
+            color: #558B2F;
+            margin-bottom: 10px;
+        }
+
+        .role-value {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 4px;
+            font-weight: 700;
+            color: #558B2F;
+        }
+
+        .btn-save {
+            width: 150px;
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #558B2F;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        /* Cột bên phải: Quản lý hồ sơ */
+        .user-card {
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #558B2F;
+            background: #eee;
+        }
+
+        .user-details .name {
+            font-weight: 800;
+            color: #558B2F;
+            font-size: 16px;
+        }
+
+        .user-details select {
+            margin-top: 5px;
+            padding: 3px 10px;
+            border: none;
+            background: #E3E9D4;
+            color: #558B2F;
+            font-weight: 700;
+            border-radius: 4px;
+        }
+
+        .btn-delete {
+            background: #a83218;
+            color: white;
+            border: none;
+            width: 25px;
+            height: 25px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-weight: 800;
+        }
+
+        /* Nút dấu cộng (+) */
+        .add-user-wrap {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .btn-plus {
+            font-size: 40px;
+            color: #558B2F;
+            cursor: pointer;
+        }
+
+        /* Nút Đăng xuất */
+        .btn-logout {
+            display: block;
+            margin: 40px auto 80px;
+            background-color: #a83218;
+            color: white;
+            padding: 10px 40px;
+            border: none;
+            border-radius: 4px;
+            font-weight: 800;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        /* --- 5. FOOTER (Đồng bộ) --- */
+        footer {
+            background-image: linear-gradient(rgba(255, 0, 0, 0.2), rgba(251, 0, 0, 0.2)), url('09.jpeg');
+            background-size: cover;
+            background-position: center;
+            color: #ddd;
+            padding-top: 50px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 10% 40px;
+        }
+
+        .footer-info h3,
+        .footer-social h3 {
+            color: white;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-info p {
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .footer-bottom {
+            background-color: #fffceb;
+            color: #a83218;
+            text-align: center;
+            padding: 15px;
+            font-weight: 800;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="top-bar">
+            <span><i class="fas fa-phone-alt"></i> 1900632005</span>
+            <span><i class="fas fa-envelope"></i> ANHVU.BAKERY205@GMAIL.COM</span>
+            <span><i class="fas fa-user"></i> TÀI KHOẢN | 0đ <i class="fas fa-shopping-cart"></i></span>
+        </div>
+        <nav class="main-nav">
+            <ul class="nav-links">
+                <li><a href="#">ANH'VU</a></li>
+                <li><a href="trangchu1.html">Trang chủ</a></li>
+                <li><a href="uudai.html">Ưu đãi</a></li>
+                <li><a href="sanpham.html">Sản phẩm</a></li>
+                <li><a href="#" class="nav-active">Tài khoản</a></li>
+                <li><a href="thongke.html">Thống kê</a></li>
+                <li><a href="donhang.html">Đơn hàng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-banner">
+        <h1>TÀI KHOẢN</h1>
+        <div class="breadcrumb">TRANG CHỦ / TÀI KHOẢN</div>
+    </section>
+
+    <div class="profile-wrapper">
+        <div class="profile-left">
+            <h2 class="title">HỒ SƠ CÁ NHÂN</h2>
+            <div class="profile-card">
+                <input type="text" value="Đỗ Lựa">
+                <input type="email" value="dolua@gmail.com">
+                <div class="role-group">
+                    <label>Chức vụ</label>
+                    <div class="role-value">Chủ cửa hàng</div>
+                </div>
+                <button class="btn-save">Chỉnh sửa</button>
+            </div>
+        </div>
+
+        <div class="profile-right">
+            <h2 class="title">QUẢN LÝ HỒ SƠ</h2>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="avatar"></div>
+                    <div class="user-details">
+                        <div class="name">Tran Diem Quynh</div>
+                        <select>
+                            <option>Staff</option>
+                            <option>Shipper</option>
+                            <option>Khách hàng</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-delete">✖</button>
+            </div>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="avatar"></div>
+                    <div class="user-details">
+                        <div class="name">Kin</div>
+                        <select>
+                            <option>Shipper</option>
+                            <option>Staff</option>
+                            <option>Khách hàng</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-delete">✖</button>
+            </div>
+
+            <div class="user-card">
+                <div class="user-info">
+                    <div class="avatar"></div>
+                    <div class="user-details">
+                        <div class="name">Nam Trinh</div>
+                        <select>
+                            <option>Shipper</option>
+                            <option>Staff</option>
+                            <option>Khách hàng</option>
+                        </select>
+                    </div>
+                </div>
+                <button class="btn-delete">✖</button>
+            </div>
+
+            <div class="add-user-wrap">
+                <span class="btn-plus"><i class="fas fa-plus-square"></i></span>
+            </div>
+        </div>
+    </div>
+
+    <button class="btn-logout">Đăng xuất</button>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-info">
+                <h3>AN'H.VU</h3>
+                <p><i class="fas fa-home"></i> 20 Ngô Quyền, Phường Tràng Tiền, Hà Nội</p>
+                <p><i></i> 67 Văn Cao, Phường Liễu Giai, Hà Nội</p>
+                <p><i></i> 58 Trung Hoà, Phường Trung Hoà, Hà Nội</p>
+                <p><i></i> 210 Ngụy Như Kon Tum, Phường Thanh Xuân Trung, Hà Nội</p>
+                <br>
+                <p><i class="fas fa-phone-alt"></i> PRE-ORDER: 1900632005</p>
+                <p><i class="fas fa-envelope"></i> ANHVU.BAKERY205@GMAIL.COM</p>
+            </div>
+            <div class="footer-social">
+                <h3>Mạng xã hội</h3>
+                <div style="font-size: 24px; display: flex; gap: 15px;">
+                    <i class="fab fa-facebook-f"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-tiktok"></i>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            A PIECE OF CAKE, A PART OF WHOLE LIFE - BÁNH SẺ CHIA, TRỌN CUỘC SỐNG
+        </div>
+    </footer>
+
+</body>
+
+</html>
